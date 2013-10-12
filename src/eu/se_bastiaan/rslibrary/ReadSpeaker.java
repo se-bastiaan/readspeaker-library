@@ -293,7 +293,7 @@ public final class ReadSpeaker {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                if(mCallback != null && mCallback instanceof ExtendedReadSpeakerCallback && !mReadDirectly) ((ExtendedReadSpeakerCallback) mCallback).obtainedAudioLocation(s);
+                if(mCallback != null && mCallback instanceof ExtendedReadSpeakerCallback) ((ExtendedReadSpeakerCallback) mCallback).obtainedAudioLocation(s);
                 if(mReadDirectly) playAudio(s);
             }
         }.execute(params);
@@ -328,6 +328,8 @@ public final class ReadSpeaker {
      * @param url Location of audiofile
      */
     public void playAudio(final String url) {
+        mReadDirectly = false;
+
         try {
             if(mWakeLock != null) mWakeLock.acquire(600000);
             stopAudio(true);
